@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+httpx
+playwright
+opencv-python-headless
+pillow
+numpy
+pydantic
+python-dotenv
+sqlalchemy
+redis

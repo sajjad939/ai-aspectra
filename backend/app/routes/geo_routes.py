@@ -135,7 +135,7 @@ async def take_screenshot_and_run_axe(url: str, screenshot_path: str, results_di
                         const style = window.getComputedStyle(el);
                         return {
                             selector: el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') + 
-                                     (el.className ? '.' + el.className.replace(/\s+/g, '.') : ''),
+                                     (el.className ? '.' + el.className.replace(/\\s+/g, '.') : ''),
                             text: el.innerText.substring(0, 50),
                             fg: style.color,
                             bg: style.backgroundColor

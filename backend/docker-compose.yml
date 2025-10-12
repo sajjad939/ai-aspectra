@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    environment:
+      - PLAYWRIGHT_BROWSERTYPE=chromium
+      - DB_URL=sqlite:///./geo_data.db
+    restart: unless-stopped

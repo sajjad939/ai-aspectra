@@ -1,0 +1,31 @@
+{
+  "screenshot": "E:\\Webmind hack\\backend\\app\\ai_analysis\\sample_screenshot.png",
+  "overlay": "e:\\Webmind hack\\results\\overlay.png",
+  "salmap": "e:\\Webmind hack\\results\\salmap.png",
+  "readability": {
+    "flesch_reading_ease": 56.98,
+    "flesch_kincaid_grade": 8.54,
+    "sentences": 2,
+    "words": 26,
+    "syllables": 42
+  },
+  "contrast_issues": [
+    {
+      "selector": "example",
+      "foreground": "#222222",
+      "background": "#ffffff",
+      "ratio": 15.91
+    }
+  ],
+  "saliency_summary": {
+    "cta_saliency": 0.0,
+    "dominant_regions": [
+      "top-hero"
+    ]
+  },
+  "suggestions": [
+    "Flesch Reading Ease is 56.98 \u2014 consider shortening sentences and using simpler words.",
+    "Contrast issue: example has ratio 15.91. Increase contrast or change background to pass WCAG AA.",
+    "Primary CTA has low visual saliency \u2014 increase size, contrast, or move it into a focal area."
+  ]
+}

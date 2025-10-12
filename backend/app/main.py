@@ -50,21 +50,3 @@ app.include_router(geo_router, prefix="/api")
 @app.get("/")
 async def root():
     return {"message": "Welcome to Vispectra API. Use /docs for API documentation."}
-
-
-# Create database tables and directories on startup
-from contextlib import asynccontextmanager
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Create database tables
-    create_tables()
-    
-    # Create static directories if they don't exist
-    os.makedirs("app/static/results", exist_ok=True)
-    yield
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)

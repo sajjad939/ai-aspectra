@@ -10,17 +10,16 @@ import asyncio
 from sqlalchemy.orm import Session
 
 # Import AI analysis modules
-from app.ai_analysis.saliency import generate_overlay_from_file
-from app.ai_analysis.readability import flesch_kincaid_readability
-from app.ai_analysis.contrast import contrast_ratio, wcag_pass_level
-from app.ai_analysis.summarizer import generate_suggestions
-from app.ai_analysis.website_analyzer import analyze_website
-from app.ai_analysis.prompt_tester import test_prompts
-from app.ai_analysis.citation_extractor import extract_citations
+from ..ai_analysis.saliency import generate_overlay_from_file
+from ..ai_analysis.readability import flesch_kincaid_readability
+from ..ai_analysis.contrast import contrast_ratio, wcag_pass_level
+from ..ai_analysis.summarizer import generate_suggestions
+from ..ai_analysis.website_analyzer import analyze_website
+from ..ai_analysis.prompt_tester import test_prompts
+from ..ai_analysis.citation_extractor import extract_citations
 
-# Import database and background processing
-from app.database import get_db, Analysis
-from app.background import process_analysis_job
+from ..database import get_db, Analysis
+from ..background import process_analysis_job
 
 # Create router
 router = APIRouter()

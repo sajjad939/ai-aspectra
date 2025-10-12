@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import routes and database
-from app.routes.geo_routes import router as geo_router
-from app.database import Base, engine, create_tables
+from .routes.geo_routes import router as geo_router
+from .database import Base, engine, create_tables
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

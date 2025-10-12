@@ -41,7 +41,7 @@ app.add_middleware(
 )
 
 # Mount static files directory
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory="backend/app/static"), name="static")
 
 # Include routers
 app.include_router(geo_router, prefix="/api")

@@ -9,11 +9,11 @@ from typing import Dict, Any, Optional
 from sqlalchemy.orm import Session
 from playwright.async_api import async_playwright
 
-from .database import Analysis
-from .ai_analysis import saliency, readability, contrast, summarizer
-from .ai_analysis.schemas import AnalysisResult, SaliencyResult, ReadabilityResult
-from .ai_analysis.prompt_tester import test_prompts
-from .ai_analysis.citation_extractor import extract_citations
+from app.database import Analysis
+from app.ai_analysis import saliency, readability, contrast, summarizer
+from app.ai_analysis.schemas import AnalysisResult, SaliencyResult, ReadabilityResult
+from app.ai_analysis.prompt_tester import test_prompts
+from app.ai_analysis.citation_extractor import extract_citations
 
 
 async def process_analysis_job(job_id: str, url: str, db: Session):

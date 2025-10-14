@@ -1,9 +1,18 @@
-# Vispectra API Backend
+# Visual Analytics Platform
 
-This is the backend API for Vispectra, a web analysis tool that provides insights on readability, contrast, and saliency of web pages.
+A comprehensive web analysis tool that provides insights on readability, contrast, and saliency of web pages, helping designers and developers create more accessible and effective websites.
 
-## Features
+## Project Structure
 
+This project consists of two main components:
+
+### Frontend (Next.js)
+- Modern UI built with Next.js and Tailwind CSS
+- Real-time analysis results display
+- Interactive visualizations
+- Responsive design for all devices
+
+### Backend (FastAPI)
 - Screenshot capture of web pages
 - Saliency analysis with heatmap generation
 - Readability scoring (Flesch-Kincaid)
@@ -12,110 +21,76 @@ This is the backend API for Vispectra, a web analysis tool that provides insight
 - Citation extraction
 - GEO score calculation
 
-## Setup
+## Getting Started
 
 ### Prerequisites
 
 - Python 3.9+
+- Node.js 16+
 - Playwright for browser automation
 - OpenAI API key (optional)
 - Reimagine API key (optional)
 
-### Installation
+### Backend Setup
 
-1. Clone the repository
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
+
 2. Install dependencies:
-
 ```bash
 pip install -r requirements.txt
 ```
 
 3. Install Playwright browsers:
-
 ```bash
 python -m playwright install chromium
 ```
 
-4. Set up environment variables (copy .env.example to .env and edit):
-
-```bash
-cp .env.example .env
-# Edit .env with your API keys and configuration
-```
-
-### Running the API
-
+4. Start the backend server:
 ```bash
 python run.py
 ```
 
-The API will be available at http://localhost:8000
+The backend server will run on http://localhost:5000
 
-### Docker
+### Frontend Setup
 
-You can also run the API using Docker:
-
+1. Navigate to the frontend directory:
 ```bash
-docker-compose up -d
+cd Frontend/visual-analytics
 ```
 
-## API Endpoints
-
-### POST /api/analyze
-
-Analyze a web page.
-
-**Request:**
-
-```json
-{
-  "url": "https://example.com"
-}
+2. Install dependencies:
+```bash
+npm install
 ```
 
-**Response:**
-
-```json
-{
-  "job_id": "1234-5678-90ab-cdef",
-  "status": "pending"
-}
+3. Start the development server:
+```bash
+npm run dev
 ```
 
-### GET /api/job/{job_id}
+The frontend will be available at http://localhost:3000
 
-Get the status and results of an analysis job.
+## Features
 
-**Response:**
+- **URL Analysis**: Enter any website URL to analyze
+- **Saliency Heatmaps**: Visualize which parts of a webpage attract the most attention
+- **Readability Metrics**: Get detailed readability scores and suggestions
+- **Contrast Analysis**: Identify potential accessibility issues
+- **AI-Powered Suggestions**: Receive recommendations for improving your website
+- **Citation Extraction**: Automatically extract citations from web content
+- **GEO Score**: Comprehensive scoring of website effectiveness
 
-```json
-{
-  "job_id": "1234-5678-90ab-cdef",
-  "status": "completed",
-  "url": "https://example.com",
-  "results": {
-    "readability": { ... },
-    "contrast": { ... },
-    "saliency": { ... },
-    "geo_score": 85.5,
-    "suggestions": [ ... ]
-  },
-  "overlay_url": "/static/results/1234-5678-90ab-cdef/overlay.png",
-  "salmap_url": "/static/results/1234-5678-90ab-cdef/salmap.png"
-}
-```
+## Technologies Used
 
-## Architecture
-
-The backend is built with FastAPI and uses:
-
-- Playwright for browser automation and screenshot capture
-- OpenCV and NumPy for image processing and saliency analysis
-- SQLAlchemy for database operations
-- Pydantic for data validation
-- OpenAI API for LLM-powered suggestions (optional)
-- Reimagine API for additional website analysis (optional)
+- **Frontend**: Next.js, React, Tailwind CSS, SWR for data fetching
+- **Backend**: FastAPI, Python, Playwright
+- **AI/ML**: Computer vision algorithms for saliency detection, NLP for text analysis
+- **Visualization**: Dynamic heatmaps and interactive charts
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the LICENSE file for details.

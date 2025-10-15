@@ -70,15 +70,24 @@ async def get_job_status(job_id: str, db: Session = Depends(get_db)):
     if not analysis:
         raise HTTPException(status_code=404, detail="Job not found")
     
+    # Check if job is already completed
+    if analysis.status == "completed":
+        # Load result from file if it exists
+        result_path = Path(f"app/static/results/{job_id}/result.json")
+        if result_path.exists():
+            with open(result_path, "r") as f:
+                result = json.load(f)
+            return JobResponse(job_id=job_id, status="completed", result=result)
+    
     # For demo purposes, always return mock data after a short delay
     # This simulates the job completing successfully
-    await asyncio.sleep(2)  # Simulate processing time
+    await asyncio.sleep(1)  # Simulate processing time
     
     # Update status to completed in database
     analysis.status = "completed"
     db.commit()
     
-    # Return mock result data
+    # Create mock result data
     mock_result = {
         "url": analysis.url,
         "screenshot_path": f"/static/results/{job_id}/screenshot.png",
@@ -92,16 +101,30 @@ async def get_job_status(job_id: str, db: Session = Depends(get_db)):
             {"element": "header", "ratio": 3.2, "wcag_level": "AA"},
             {"element": "footer", "ratio": 4.1, "wcag_level": "AAA"}
         ],
+        "axe_violations": [
+            {
+                "id": "color-contrast",
+                "impact": "serious",
+                "description": "Elements must have sufficient color contrast",
+                "help": "Elements must have sufficient color contrast",
+                "nodes": [
+                    {
+                        "html": "<button class='btn-primary'>Submit</button>",
+                        "target": ["button.btn-primary"]
+                    }
+                ]
+            }
+        ],
         "suggestions": [
             "Improve contrast in header section",
             "Add more descriptive alt text to images",
             "Consider breaking long paragraphs into shorter ones"
         ],
-        "prompt_results": [
-            {"prompt": "What is this website about?", "response": "This website appears to be about data visualization and analytics."}
-        ],
         "citations": [
             {"text": "According to research...", "source": "Citation needed"}
+        ],
+        "prompt_results": [
+            {"prompt": "What is this website about?", "response": "This website appears to be about data visualization and analytics."}
         ],
         "geo_score": 82
     }
@@ -123,6 +146,34 @@ async def get_job_status(job_id: str, db: Session = Depends(get_db)):
 
 
 # Helper functions for processing analysis jobs
+
+
+@router.get("/list", response_model=Dict[str, List[Dict[str, Any]]])
+async def list_jobs(db: Session = Depends(get_db)):
+    """List all analysis jobs"""
+    # Get all jobs from database
+    analyses = db.query(Analysis).order_by(Analysis.created_at.desc()).limit(10).all()
+    
+    # Convert to response format
+    jobs = []
+    for analysis in analyses:
+        job_data = {
+            "job_id": analysis.job_id,
+            "status": analysis.status,
+            "url": analysis.url,
+            "created_at": analysis.created_at
+        }
+        
+        # Check if result file exists
+        result_path = Path(f"app/static/results/{analysis.job_id}/result.json")
+        if analysis.status == "completed" and result_path.exists():
+            with open(result_path, "r") as f:
+                result = json.load(f)
+            job_data["result"] = result
+        
+        jobs.append(job_data)
+    
+    return {"jobs": jobs}
 
 
 async def take_screenshot_and_run_axe(url: str, screenshot_path: str, results_dir: Path):

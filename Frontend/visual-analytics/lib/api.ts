@@ -1,4 +1,4 @@
-const DEFAULT_BACKEND = "http://localhost:5000"
+const DEFAULT_BACKEND = "http://localhost:8000"
 
 export function getBackendBaseUrl() {
   if (typeof window === "undefined") {
@@ -34,5 +34,10 @@ export const api = {
 }
 
 export function swrFetcher(url: string) {
-  return api.get(url.replace(getBackendBaseUrl(), ""))
+  return fetch(url).then(res => {
+    if (!res.ok) {
+      throw new Error(`Fetch failed: ${res.status}`)
+    }
+    return res.json()
+  })
 }

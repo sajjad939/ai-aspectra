@@ -1,8 +1,9 @@
 export type AnalyzeRequest = {
   url: string
+  prompts?: string[]
 }
 
-export type JobStatus = "pending" | "running" | "done" | "error"
+export type JobStatus = "pending" | "running" | "completed" | "error"
 
 export type AxeViolation = {
   id: string
@@ -19,11 +20,12 @@ export type AxeViolation = {
 
 export type ContrastIssue = {
   element?: string
-  foreground: string
-  background: string
+  foreground?: string
+  background?: string
   ratio: number
   level?: "AA" | "AAA" | "Fail"
   snippet?: string
+  wcag_level?: string
 }
 
 export type ReimagineReport = {
@@ -36,16 +38,35 @@ export type ReimagineReport = {
   raw?: any
 }
 
+export type ReadabilityMetrics = {
+  score: number
+  grade_level: string
+  reading_time: string
+}
+
 export type JobResult = {
   url: string
   createdAt?: string
   durationMs?: number
-  readability?: number
+  readability?: ReadabilityMetrics
   axe_violations?: AxeViolation[]
   contrast_issues?: ContrastIssue[]
-  screenshot?: string // e.g., "/assets/<job>.png" (served by backend)
-  saliency?: string // e.g., "/assets/<job>-saliency.png"
-  reimagine_report?: ReimagineReport
+  screenshot_path?: string
+  saliency_path?: string
+  suggestions?: string[]
+  prompt_results?: any[]
+}
+
+export type JobResponse = {
+  job_id: string
+  status: JobStatus
+  result?: JobResult
+}
+
+export type JobDetailResponse = JobResponse
+
+export type ListResponse = {
+  jobs: JobResponse[]
 }
 
 export type JobDetailResponse = {

@@ -1,18 +1,18 @@
 "use client"
 
 import useSWR from "swr"
-import { getBackendBaseUrl } from "./api"
+import { getBackendBaseUrl, swrFetcher } from "./api"
 import type { JobDetailResponse, ListResponse } from "./types"
 
 export function useList() {
   const url = `${getBackendBaseUrl()}/api/list`
-  return useSWR<ListResponse>(url)
+  return useSWR<ListResponse>(url, swrFetcher)
 }
 
 export function useJob(jobId: string) {
   const url = `${getBackendBaseUrl()}/api/job/${jobId}`
   // Poll more frequently while pending/running
-  const { data, error, isLoading, mutate } = useSWR<JobDetailResponse>(url, {
+  const { data, error, isLoading, mutate } = useSWR<JobDetailResponse>(url, swrFetcher, {
     refreshInterval: (latest) => {
       const status = (latest as JobDetailResponse | undefined)?.status
       if (!status || status === "pending" || status === "running") return 1500
